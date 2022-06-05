@@ -8,8 +8,10 @@ import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
@@ -35,7 +37,10 @@ public class MainView implements Initializable
     private Label number;
 
     @FXML
-    private Pane root;
+    private StackPane root;
+
+    @FXML
+    private TextArea output;
 
     @FXML
     private Circle circleTable;
@@ -77,11 +82,20 @@ public class MainView implements Initializable
         double degree = 0;
         for (int i = 0; i < n; ++i)
         {
-            double x = radius * Math.cos(Math.toRadians(degree)) + root.getWidth() / 2;
-            double y = radius * Math.sin(Math.toRadians(degree)) + root.getHeight() / 2;
+            double x = radius * Math.cos(Math.toRadians(degree));
+            double y = radius * Math.sin(Math.toRadians(degree));
 
-            Circle newPhilosopher = new Circle(x,y,smallRadius);
-            root.getChildren().add(newPhilosopher);
+            Circle newPhilosopher = new Circle(smallRadius);
+            Label newLabel = new Label(String.format("%d", i+1));
+            root.getChildren().addAll(newPhilosopher, newLabel);
+
+            newPhilosopher.setTranslateX(x);
+            newPhilosopher.setTranslateY(y);
+
+            newLabel.setTranslateX(x);
+            newLabel.setTranslateY(y);
+            newLabel.setTextFill(Color.WHITE);
+
             newPhilosopher.setFill(Color.BLUEVIOLET);
 
             degree += angle;
@@ -94,6 +108,7 @@ public class MainView implements Initializable
         chooseAlgorithm.getItems().addAll(algorithms);
         chooseAlgorithm.setOnAction(this::getChosenAlgorithm);
         alg = new AlgorithmSolver(root);
+        output.setEditable(false);
     }
 
     public void getChosenAlgorithm(ActionEvent event)
