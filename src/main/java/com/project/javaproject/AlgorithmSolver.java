@@ -1,23 +1,23 @@
 package com.project.javaproject;
 
+import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Vector;
+import java.util.*;
 
 public class AlgorithmSolver
 {
-    public enum State {EAT, THINK_1, THINK_0}
     private final HashMap<State, Color> mapColors;
 
-    private Vector<Philosopher> philosophers;
+    private final Vector<Philosopher> philosophers;
+    private final Vector<Fork> forks;
 
-    private final Pane root;
-    public AlgorithmSolver(Pane myPane)
+    private final StackPane root;
+    public AlgorithmSolver(StackPane myPane)
     {
         this.root = myPane;
         mapColors = new HashMap<>();
@@ -25,19 +25,32 @@ public class AlgorithmSolver
         mapColors.put(State.THINK_1, Color.ORANGE);
         mapColors.put(State.THINK_0, Color.RED);
 
-        for (int i = 1; i < root.getChildren().size(); ++i)
+        philosophers = new Vector<>();
+        forks = new Vector<>();
+
+        int i = 0;
+        for (Node node : root.getChildren())
         {
-            philosophers.add(new Philosopher(i));
+            if (node instanceof Circle && !Objects.equals(node.getId(), "circleTable"))
+            {
+                philosophers.add(new Philosopher(++i));
+                forks.add(new Fork(i));
+            }
         }
+        System.out.println(philosophers.size());
+        System.out.println(forks.size());
     }
 
     public void startPickedAlgorithm(String pickedAlgorithm)
     {
-        if (pickedAlgorithm.equals("Kelner"))
+        if (pickedAlgorithm.equals("Dijkstra"))
         {
-            this.waiterAlgorithm();
-            System.out.println("Działa...");
-            changeStatus(State.EAT, new Philosopher(2));
+            this.dijkstraAlgorithm();
+
+            //0 oznacza 1 kółko, 1 oznacza 2 kółko ... 10 oznacza 11 kółko itd.
+            changeStatus(State.EAT, getPickedCircle(1));
+            changeStatus(State.EAT, getPickedCircle(4));
+            changeStatus(State.EAT, getPickedCircle(9));
         }
 
         else
@@ -46,14 +59,48 @@ public class AlgorithmSolver
         }
     }
 
-    public void waiterAlgorithm()
+    public void dijkstraAlgorithm()
     {
-
+        DijkstraAlg myDijkstra = this.new DijkstraAlg();
+        myDijkstra.runDijkstraAlgorithm();
     }
 
-    public void changeStatus(State newStatus, Philosopher ph)
+    public void changeStatus(State newStatus, int ph)
     {
-        Circle pickedPhilosopher = (Circle) root.getChildren().get(ph.getId());
+        assert ph >= 0 && ph < philosophers.size() : "Filozof spoza zakresu tablicy!!!";
+        Circle pickedPhilosopher = this.getPhilosopherById(ph);
+        assert pickedPhilosopher != null : "Błędnie wyszukany filozof!!!";
         pickedPhilosopher.setFill(mapColors.get(newStatus));
+    }
+
+    private int getPickedCircle(int id)
+    {
+        return philosophers.get(id-1).getId();
+    }
+
+    private Circle getPhilosopherById(int ph)
+    {
+        for (Node node : root.getChildren())
+        {
+            if (node instanceof Circle && Objects.equals(node.getId(), String.valueOf(ph)))
+            {
+                return (Circle) node;
+            }
+        }
+        return null;
+    }
+
+    private class DijkstraAlg
+    {
+        public DijkstraAlg()
+        {
+
+        }
+
+        public void runDijkstraAlgorithm()
+        {
+            System.out.println("Okej coś poszło...");
+            System.out.println(AlgorithmSolver.this.philosophers.size()+6);
+        }
     }
 }

@@ -4,16 +4,19 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
+import javafx.geometry.Pos;
 import javafx.geometry.VPos;
 import javafx.scene.Node;
 import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Line;
 
 import java.net.URL;
 import java.util.Objects;
@@ -28,7 +31,7 @@ public class MainView implements Initializable
 
     @FXML
     private ChoiceBox<String> chooseAlgorithm;
-    private final String[] algorithms = new String[]{"Kelner"};
+    private final String[] algorithms = new String[]{"Dijkstra"};
 
     @FXML
     private Label algorithm;
@@ -45,11 +48,10 @@ public class MainView implements Initializable
     @FXML
     private Circle circleTable;
 
-    private AlgorithmSolver alg;
-
     @FXML
     protected void onStartButton()
     {
+        AlgorithmSolver alg = new AlgorithmSolver(root);
         alg.startPickedAlgorithm(chooseAlgorithm.getValue());
     }
 
@@ -86,8 +88,12 @@ public class MainView implements Initializable
             double y = radius * Math.sin(Math.toRadians(degree));
 
             Circle newPhilosopher = new Circle(smallRadius);
+            newPhilosopher.setId(String.format("%d", i+1));
+
             Label newLabel = new Label(String.format("%d", i+1));
+
             root.getChildren().addAll(newPhilosopher, newLabel);
+            //StackPane.setAlignment(newLine, Pos.CENTER_LEFT);
 
             newPhilosopher.setTranslateX(x);
             newPhilosopher.setTranslateY(y);
@@ -107,7 +113,7 @@ public class MainView implements Initializable
     {
         chooseAlgorithm.getItems().addAll(algorithms);
         chooseAlgorithm.setOnAction(this::getChosenAlgorithm);
-        alg = new AlgorithmSolver(root);
+
         output.setEditable(false);
     }
 
