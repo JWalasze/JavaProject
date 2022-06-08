@@ -17,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
+import javafx.scene.text.Font;
 
 import java.net.URL;
 import java.util.Objects;
@@ -51,7 +52,7 @@ public class MainView implements Initializable
     @FXML
     protected void onStartButton()
     {
-        AlgorithmSolver alg = new AlgorithmSolver(root);
+        AlgorithmSolver alg = new AlgorithmSolver(root, output);
         alg.startPickedAlgorithm(chooseAlgorithm.getValue());
     }
 
@@ -69,10 +70,16 @@ public class MainView implements Initializable
         double n = Double.parseDouble(numberOfPhilosopher.getText());
         double angle = 360/n;
 
+        output.setPrefRowCount(Integer.parseInt(numberOfPhilosopher.getText()));
+        output.setPrefColumnCount(1);
+
         double smallRadius = 10;
+        Font myFont = new Font(15);
+
         if (n > 20 && n <= 40)
         {
             smallRadius = 5;
+            myFont = new Font(8);
         }
 
         else if(n > 40)
@@ -91,18 +98,17 @@ public class MainView implements Initializable
             newPhilosopher.setId(String.format("%d", i+1));
 
             Label newLabel = new Label(String.format("%d", i+1));
+            newLabel.setFont(myFont);
 
             root.getChildren().addAll(newPhilosopher, newLabel);
-            //StackPane.setAlignment(newLine, Pos.CENTER_LEFT);
 
             newPhilosopher.setTranslateX(x);
             newPhilosopher.setTranslateY(y);
+            newPhilosopher.setFill(Color.BLUEVIOLET);
 
             newLabel.setTranslateX(x);
             newLabel.setTranslateY(y);
             newLabel.setTextFill(Color.WHITE);
-
-            newPhilosopher.setFill(Color.BLUEVIOLET);
 
             degree += angle;
         }
@@ -115,6 +121,7 @@ public class MainView implements Initializable
         chooseAlgorithm.setOnAction(this::getChosenAlgorithm);
 
         output.setEditable(false);
+        output.setWrapText(true);
     }
 
     public void getChosenAlgorithm(ActionEvent event)

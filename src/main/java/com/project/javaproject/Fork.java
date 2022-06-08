@@ -11,13 +11,9 @@ public class Fork
         isTaken = false;
     }
 
-    public int getId()
-    {
-        return id;
-    }
+    public boolean isTaken() { return isTaken; }
 
-    public void changeStatus()
-    {
-        isTaken = !isTaken;
-    }
+    public int getId() {return id;}
+
+    public void changeStatus() {isTaken = !isTaken;}
 }
