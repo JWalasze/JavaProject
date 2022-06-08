@@ -61,8 +61,6 @@ public class AlgorithmSolver
 
     public void dijkstraAlgorithm()
     {
-        resultsArea.setText("Zaczynamy:\n");
-
         for (Philosopher philosopher : philosophers)
         {
             //philosopher.showForks();

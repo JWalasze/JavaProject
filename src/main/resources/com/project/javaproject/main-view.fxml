@@ -10,7 +10,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javaproject.MainView">
+<AnchorPane prefHeight="416.0" prefWidth="610.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.project.javaproject.MainView">
    <children>
       <Button layoutX="71.0" layoutY="147.0" mnemonicParsing="false" onAction="#onSaveButton" text="Zatwierdź" />
       <Label layoutX="37.0" layoutY="79.0" text="Wprowadź ilość filozofów" />
@@ -32,5 +32,11 @@
       <ChoiceBox id="chooseAlgorithm" fx:id="chooseAlgorithm" layoutX="29.0" layoutY="239.0" prefWidth="150.0" />
       <Label layoutX="57.0" layoutY="213.0" text="Wybierz algorytm" />
       <TextArea fx:id="output" layoutX="420.0" layoutY="99.0" prefHeight="200.0" prefWidth="162.0" />
+      <Circle fill="ORANGE" layoutX="434.0" layoutY="323.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="GREEN" layoutX="434.0" layoutY="358.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Circle fill="RED" layoutX="434.0" layoutY="389.0" radius="13.0" stroke="BLACK" strokeType="INSIDE" />
+      <Label layoutX="473.0" layoutY="314.0" text="Filozof myśl" />
+      <Label layoutX="473.0" layoutY="349.0" text="Filozof je" />
+      <Label layoutX="473.0" layoutY="380.0" text="Filozof jest głodny" />
    </children>
 </AnchorPane>
